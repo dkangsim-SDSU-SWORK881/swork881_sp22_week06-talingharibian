@@ -72,18 +72,18 @@ table(data.01r$county)
 
 data.01r<- data.01r%>%
   mutate(county_regions = case_when(
-    county %in% c("Ector","Tom Green") ~ "West Region"
-    county %in% c("El Paso","Hudspeth") ~ "Rio Grande"
-    county %in% c("Anderson","Smith") ~ "Upper East"
-    county %in% c("San Jacinto") ~ "South East"
-    county %in% c("Brown") ~ "Northwest Region"
-    county %in% c("Collin","Dallas","Denton","Ellis","Parker","Tarrant") ~ "Metroplex Region"
-    county %in% c("Hale","Hall","Hockley","Lamb","Lubbock","Parmer","Randall") ~ "High Plains"
-    county %in% c("Brazoria","Fort Bend","Galveston","Harris","Montogomery") ~ "Gulf Coast"
-    county %in% c("Bell","Brazos","Grimes","McLennan") ~ "Central Region"
-    county %in% c("Bastrop","Caldwell","Travis","Williamson") ~ "Capital Region"
-    county %in% c("Bexar","Calhoun","Comal","Guadalupe","Kerr","Victoria","Wilson") ~ "Alamo Region"
-    county %in% c("Cameron","Hidalgo","Jimwells","Kleberg","Nueces","San Patricio","Starr","Val Verde","Webb","Willacy","Zapata") ~ "Northwest Region"
+    county %in% c("Ector","Tom Green") ~ "West Region",
+    county %in% c("El Paso","Hudspeth") ~ "Rio Grande",
+    county %in% c("Anderson","Smith") ~ "Upper East",
+    county %in% c("San Jacinto") ~ "South East",
+    county %in% c("Brown") ~ "Northwest Region",
+    county %in% c("Collin","Dallas","Denton","Ellis","Parker","Tarrant") ~ "Metroplex Region",
+    county %in% c("Hale","Hall","Hockley","Lamb","Lubbock","Parmer","Randall") ~ "High Plains",
+    county %in% c("Brazoria","Fort Bend","Galveston","Harris","Montogomery") ~ "Gulf Coast",
+    county %in% c("Bell","Brazos","Grimes","McLennan") ~ "Central Region",
+    county %in% c("Bastrop","Caldwell","Travis","Williamson") ~ "Capital Region",
+    county %in% c("Bexar","Calhoun","Comal","Guadalupe","Kerr","Victoria","Wilson") ~ "Alamo Region",
+    county %in% c("Cameron","Hidalgo","Jimwells","Kleberg","Nueces","San Patricio","Starr","Val Verde","Webb","Willacy","Zapata") ~ "Northwest Region"))
 
 
 ```
