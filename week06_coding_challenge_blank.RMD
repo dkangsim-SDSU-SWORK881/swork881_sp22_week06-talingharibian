@@ -21,23 +21,36 @@ library(gam)
 library(mgcv)
 ```
 
+```{r}
+install.packages("naniar", dependencies=T)
+install.packages("lme4", dependencies=T)
+install.packages("lattice", dependencies=T)
+install.packages("afex", dependencies=T)
+install.packages("splines", dependencies=T)
+install.packages("gam", dependencies=T)
+install.packages("mgvca", dependencies=T)
+```
+```{r}
+library(tidyverse)
+library(tidymodels)
+```
 
 
 #load data set "LHS_TEXAS.csv"
 ```{r include=FALSE}
 # write your code here
 
+data.01<-read_csv("~/Desktop/Spring 2022/SW 881 Multivariate Data Analysis/week 6 exercises/Data/LHS_TEXAS.csv")
 ```
 
 # How many observations? 
-**answer** 
+383
 >
 
 
 # How many variables? 
-**answer**
+35
 >
-
 
 #we will focus on covid-19 related issues; refer to the codebook. 
 
@@ -45,8 +58,32 @@ library(mgcv)
 ## create a new varaible called `county_regions` and group counties into 12 regions. Use `texas county regions.xlsx` file for your reference. Please note that these type of information are provided for this week's coding challenge; however, for your final project, you will have to search and apply outside information on your own. 
 
 
+data.02 <- data.01%>%
+  mutate(county_regions = case_when(county %in% c("Anderson")~"upper east")
+  
 ```{r}
-## your code goes here
+
+data.01r<- data.01%>%
+  filter (stusps %in% c("TX"))
+
+ftable(data.01r$stusps)
+
+table(data.01r$county)
+
+data.01r<- data.01r%>%
+  mutate(county_regions = case_when(
+    county %in% c("Ector","Tom Green") ~ "West Region"
+    county %in% c("El Paso","Hudspeth") ~ "Rio Grande"
+    county %in% c("Anderson","Smith") ~ "Upper East"
+    county %in% c("San Jacinto") ~ "South East"
+    county %in% c("Brown") ~ "Northwest Region"
+    county %in% c("Collin","Dallas","Denton","Ellis","Parker","Tarrant") ~ "Metroplex Region"
+    county %in% c("Hale","Hall","Hockley","Lamb","Lubbock","Parmer","Randall") ~ "High Plains"
+    county %in% c("Brazoria","Fort Bend","Galveston","Harris","Montogomery") ~ "Gulf Coast"
+    county %in% c("Bell","Brazos","Grimes","McLennan") ~ "Central Region"
+    county %in% c("Bastrop","Caldwell","Travis","Williamson") ~ "Capital Region"
+    county %in% c("Bexar","Calhoun","Comal","Guadalupe","Kerr","Victoria","Wilson") ~ "Alamo Region"
+    county %in% c("Cameron","Hidalgo","Jimwells","Kleberg","Nueces","San Patricio","Starr","Val Verde","Webb","Willacy","Zapata") ~ "Northwest Region"
 
 
 ```
