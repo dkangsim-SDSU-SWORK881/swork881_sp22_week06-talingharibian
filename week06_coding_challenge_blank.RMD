@@ -76,27 +76,25 @@ data.01r<- data.01r%>%
     county %in% c("El Paso","Hudspeth") ~ "Rio Grande",
     county %in% c("Anderson","Smith") ~ "Upper East",
     county %in% c("San Jacinto") ~ "South East",
-    county %in% c("Brown") ~ "Northwest Region",
-    county %in% c("Collin","Dallas","Denton","Ellis","Parker","Tarrant") ~ "Metroplex Region",
+    county %in% c("Brown") ~ "Northwest",
+    county %in% c("Collin","Dallas","Denton","Ellis","Parker","Tarrant") ~ "Metroplex",
     county %in% c("Hale","Hall","Hockley","Lamb","Lubbock","Parmer","Randall") ~ "High Plains",
     county %in% c("Brazoria","Fort Bend","Galveston","Harris","Montogomery") ~ "Gulf Coast",
-    county %in% c("Bell","Brazos","Grimes","McLennan") ~ "Central Region",
-    county %in% c("Bastrop","Caldwell","Travis","Williamson") ~ "Capital Region",
-    county %in% c("Bexar","Calhoun","Comal","Guadalupe","Kerr","Victoria","Wilson") ~ "Alamo Region",
-    county %in% c("Cameron","Hidalgo","Jimwells","Kleberg","Nueces","San Patricio","Starr","Val Verde","Webb","Willacy","Zapata") ~ "Northwest Region"))
+    county %in% c("Bell","Brazos","Grimes","McLennan") ~ "Central",
+    county %in% c("Bastrop","Caldwell","Travis","Williamson") ~ "Capital",
+    county %in% c("Bexar","Calhoun","Comal","Guadalupe","Kerr","Victoria","Wilson") ~ "Alamo",
+    county %in% c("Cameron","Hidalgo","Jimwells","Kleberg","Nueces","San Patricio","Starr","Val Verde","Webb","Willacy","Zapata") ~ "Southern"))
 
+ftable(data.01r$county_regions)
 
 ```
 # use `table ()` function to see frequency for each county_regions. Which county_region has the biggest sample? State the name of county_region and its sample size. 
-**answer**
+Alamo region n=90
 >>
-
 
 # which county_region(s) has the smallest sample? State the name of county_region and its sample size:
-**answer**
+South East region n=1
 >>
-
-
 
 #since some county_regions have only 1 participant, we need to find a way to combine some regions into more general regions: 
 
@@ -105,16 +103,23 @@ Combine `Alamo`, `Capital`, `Central` and name it as `capital_region` (121)
 Combine `gulf coast`, `southeast` and name it as `east_region` (89)
 Combine `metroplex`, `upper east`, `northwest`, `high plains` and name it as `north_region` (99)
 
-```{r}
-## your code goes here
 
+```{r}
+data.02r<- data.01r%>%
+  mutate(general_regions = case_when(
+    county_regions %in% c("Rio Grande","West", "Southern") ~ "Southwest Region",
+    county_regions %in% c("Alamo","Capital","Central") ~ "Capital Region",
+    county_regions %in% c("Gulf Coast","Southeast") ~ "East Region",
+    county_regions %in% c("Metroplex","Upper East","Northwest","High Plains") ~ "South East"))
+
+ftable(data.02r$general_regions)
 ```
 
 # use `table()` function to describe the four regions
-**answer**
+Capital Region East Region South East Southwest Region
+                                                       
+            121          87        100               65
 >>
-
-
 
 #data wrangling - make sure you reverse codes where needed. 
 # create the following variables: 
@@ -126,8 +131,24 @@ Combine `metroplex`, `upper east`, `northwest`, `high plains` and name it as `no
 - convert the `covid_neg_impact` mean score to a sum score
 
 ```{r}
-## your code goes here
-
+data.03 <- data.02r%>%
+  mutate(
+    covid_awareness = 6 - ((covid_a_1+covid_b_1+covid_c_1+covid_d_1+covid_e_1)/5),
+    covid_awareness_kang = 6 - rowMeans(across(covid_a_1:covid_e_1), na.rm = T),
+    ptsd_mean = 6 - ((ptsd1_1+ptsd2_1+ptsd3_1+ptsd4_1)/4),
+    ptsd_mean_kang = 6 - rowMeans(across(ptsd1_1:ptsd4_1), na.rm = T),
+    distress = rowSums(across(phq1_1:phq4_1), na.rm = T))
+  #why is there another %>% at the end of this line?
+data.04 <- data.03%>%
+    replace_with_na(replace = list(covid_emotional_1=5,
+                                 covid_rent_1=5, 
+                                 covid_job_1=5, 
+                                 covid_food_1=5,
+                                 covid_paycare_1=5,
+                                 covid_transportation_1=5,
+                                 covid_bills_1=5,
+                                 covid_care_1=5,
+                                 covid_sudtx_1=5))
 
 ```
 
